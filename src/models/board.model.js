@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const httpStatus = require('http-status')
 const Schema = mongoose.Schema
 const APIError = require('../helpers/APIError')
+const Utility = require('../helpers/utility')
 
 /**
  * Board Schema
@@ -27,23 +28,30 @@ const BoardSchema = new mongoose.Schema({
    */
   state: {
     type: Number,
-    required: true
+    default: 0
   },
   /*
    * cell that fired
    */
-  fired: {
-    type: Array,
-    default: []
-  },
+  fired: [{
+    type: String
+  }],
   /*
    * Array of secret ship in this board
    */
   ships: [{
     /*
-     * The objectId of ship.
+     * Name of ship
      */
-    id: Schema.Types.ObjectId,
+    name: {
+      type: String
+    },
+    /*
+     * length of ship
+     */
+    length: {
+      type: Number
+    },
     /*
      * status of the ship
      */
@@ -59,9 +67,32 @@ const BoardSchema = new mongoose.Schema({
 })
 
 /**
+ * Methods
+ */
+BoardSchema.method({
+})
+
+
+/**
  * Statics
  */
 BoardSchema.statics = {
+  /**
+   * List boards in descending order of 'createdAt' timestamp.
+   * @param {number} skip - Number of boards to be skipped.
+   * @param {number} limit - Limit number of boards to be returned.
+   * @returns {Promise<Board[]>}
+   */
+  list({ skip = 0, limit = 50 } = {}) {
+    return this.find()
+      .sort({
+        createdAt: -1
+      })
+      .skip(+skip)
+      .limit(+limit)
+      .exec()
+  },
+
   /**
    * Get board
    * @param {ObjectId} id - The objectId of board.
@@ -74,22 +105,6 @@ BoardSchema.statics = {
     }
     const err = new APIError('No such a board exists!', httpStatus.NOT_FOUND)
     throw err
-  },
-
-  /**
-   * fire the ship!
-   * @param {ObjectId} id - The objectId of board.
-   * @param {string} cell - corrodinate when shoot torpedo
-   * @returns {Promise<String, APIError>} text - 
-   */
-  async fire(id, cell) {
-    const update = {
-      $push: {
-        fired: cell
-      }
-    }
-    const resp = await this.update(id, update).exec()
-    console.log('resp = ', JSON.stringify(resp, null, 2))
   }
 }
 

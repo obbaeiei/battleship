@@ -1,5 +1,5 @@
 const express = require('express')
-const userRoutes = require('./user.route')
+const boardRoutes = require('./board.route')
 
 const router = express.Router()
 
@@ -8,7 +8,7 @@ router.get('/ping', (req, res) => {
   res.send('pong')
 })
 
-// mount user routes at /users
-router.use('/users', userRoutes)
+// mount board routes at /boards
+router.use('/boards', boardRoutes)
 
 module.exports = router
