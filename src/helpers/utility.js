@@ -1,40 +1,189 @@
+const _ = require('lodash')
+
 class Utility {
+  /**
+   * get XY
+   * @properties {string} cor - e.g. 1x1 {x}x{y}
+   * @returns {object} xy
+   */
+  static _getXY(at) {
+    // Example at = 1x1
+    const xy = at.split('x')
+    return {
+      x: +xy[0], // parseInt
+      y: +xy[1] // parseInt
+    }
+  }
+
+  /**
+   * Is ship adjacent to others?
+   * if 2x2 then adjacents are 1x1, 1x2, 2x2, 3x2, 2x3, 3x3
+   * @properties {string} board.square_grid - size of grid
+   * @properties {object} ship.cors
+   * @returns {object} True is adjacent(cannot place this ship). Otherwise false
+   */
+  static isAdjacent(ships, cors) {
+    if (!ships.length) {
+      return false
+    }
+    console.log('ships = ', JSON.stringify(ships, null, 2))
+    let totalCors = {}
+    // loop get all cors from old ships
+    for (let i = 0; i < ships.length; i++) {
+      const oldShip = ships[i]
+      Object.assign(totalCors, oldShip.cors)
+    }
+
+    // add adjacents cell from all cors to totalCors
+    let keys = Object.keys(totalCors)
+    for (let i = 0; i < keys.length; i++) {
+      let { x, y } = Utility._getXY(keys[i])
+      totalCors[`${x - 1}x${y - 1}`] = false
+      totalCors[`${x - 1}x${y}`] = false
+      totalCors[`${x}x${y - 1}`] = false
+      totalCors[`${x + 1}x${y + 1}`] = false
+      totalCors[`${x + 1}x${y}`] = false
+      totalCors[`${x}x${y + 1}`] = false
+      totalCors[`${x - 1}x${y + 1}`] = false
+      totalCors[`${x + 1}x${y - 1}`] = false
+    }
+    console.log('totalCors = ', JSON.stringify(totalCors, null, 2))
+
+    // check new ship exists in totalCors or not
+
+    keys = Object.keys(cors)
+    console.log('keys = ', JSON.stringify(keys, null, 2));
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      if (typeof totalCors[key] !== 'undefined') {
+        // if exists return true. its Adjacent
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
+   * Is ship over square grid?
+   * @properties {string} board.square_grid - size of grid
+   * @properties {object} ship.cors
+   * @returns {object} True is overgrid(cannot place this ship). Otherwise false
+   */
+  static isShipOverGrid(grid, cors) {
+    // loop go from last items
+    const keys = Object.keys(cors)
+    for (var i = keys.length - 1; i >= 0; i--) {
+      const cor = keys[i]
+      let { x, y } = Utility._getXY(cor)
+      if (x > grid || y > grid) {
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
+   * Get cors by start, length and direction
+   * Example1 start=1x1 length=4, direction=vertical
+   * It will get 1x1 1x2 1x3 1x4
+   * Example2 start=1x1 length=4, direction=horizontal
+   * It will get 1x1 2x1 3x1 4x1
+   * @properties {string} body.at - cors pattern {x}x{y} e.g. 1x1
+   * @properties {string} body.direction - enum('horizontal', 'vertical')
+   * @properties {number} ship.l - length of ship
+   * @returns {object} key is cors (1x1), value is boolean True is fired. Otherwise false
+   */
+  static getCors({ at, direction } , { l }) {
+    const cors = {}
+    cors[at] = false
+
+    // Example at = 1x1
+    let { x, y } = Utility._getXY(at)
+
+    let getCor = null
+    if (direction === 'horizontal') {
+      getCor = () => `${++x}x${y}`
+    } else {
+      getCor = () => `${x}x${++y}`
+    }
+
+    for (let i = 0; i < l - 1; i++) {
+      cors[getCor()] = false
+    }
+    return cors
+  }
+
+  /**
+   * The limit are
+   * 1x Battleship, 2x Cruisers, 3x Destroyers and 4x Submarines.
+   * @param {Object[]} ships - array of ship
+   * @param {number} type - type of ship
+   * @returns {boolean} True is the ship can put into board. Otherwise false
+   */
+  static checkLimitShipsInBoard(ships, type) {
+    console.log('ships = ', JSON.stringify(ships, null, 2))
+    if (!ships.length) {
+      // if no ship in board then true
+      return true
+    }
+    const groupByType = _.groupBy(ships, ship => ship.type)
+    let limit
+    if (type === 1) {
+      limit = 1
+    } else if (type === 2) {
+      limit = 2
+    } else if (type === 3) {
+      limit = 3
+    } else if (type === 4) {
+      limit = 4
+    }
+    // 0 < 2 true
+    // 1 < 2 true
+    // 2 < 2 false
+    // 3 < 2 false
+    let amount = groupByType[type] ? groupByType[type].length : 0
+    return amount < limit
+  }
 
   /**
    * get ship
-   * 
+   *
    * @param {number} type - type of ship
    * @returns {string} ship.name - name of ship
-   *          {number} ship.length - length of ship
+   * @returns {number} ship.l - length of ship
    */
   static getShip(type) {
     switch (type) {
       case 1:
         return {
+          type,
           name: 'Battleship',
-          length: 4
+          l: 4
         }
       case 2:
         return {
-          name: 'Cruisers',
-          length: 3
+          type,
+          name: 'Cruiser',
+          l: 3
         }
       case 3:
         return {
-          name: 'Destroyers',
-          length: 2
+          type,
+          name: 'Destroyer',
+          l: 2
         }
       case 4:
         return {
-          name: 'Submarines',
-          length: 1
+          type,
+          name: 'Submarine',
+          l: 1
         }
     }
   }
 
   /**
    * private function get situations
-   * 
+   *
    * @param {Number} num - number of situation
    * @param {string} x - name of ship or number of moves
    * @returns {string} text - situation after fired
@@ -69,7 +218,7 @@ class Utility {
    *   set ship.corrodinate that hit to true
    *   set ship.ship_destroyed + 1
    *   return Win ! You completed the game in {number of moves} moves
-   * 
+   *
    * @param {Object} board - The object of board model
    * @param {string} cellFired - cell fired
    * @returns {string} text - situation after fired from function _getSituations
@@ -83,8 +232,9 @@ class Utility {
         continue
       }
       // if matched cors key in ship (it HITS)
-      if (ship.cors[cellFired] !== undefined) {
+      if (typeof ship.cors[cellFired] !== 'undefined') {
         ship.cors[cellFired] = true
+
         // checking Is this ship destroyed?
         const keys = Object.keys(ship.cors)
         ship.destroyed = true
@@ -97,7 +247,7 @@ class Utility {
             return Utility._getSituation(1)
           }
         }
-        ship.ship_destroyed += 1
+        board.ship_destroyed += 1
         if (board.ship_destroyed === ships.length) {
           return Utility._getSituation(3, board.fired.length)
         }

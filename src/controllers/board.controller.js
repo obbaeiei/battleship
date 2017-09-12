@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const APIError = require('../helpers/APIError')
 const Board = require('../models/board.model')
 const Utility = require('../helpers/utility')
@@ -86,15 +87,65 @@ function remove(req, res, next) {
  * add unit
  * @returns {Board}
  */
-function addUnit(req, res, next) {
-  // @TODO check type ship should not more than 1x Battleship, 2x Cruisers, 3x Destroyers and 4x Submarines.
-  // @TODO get all cells from start and length ship
-  // @TODO check ship over grid
-  // @TODO check ship exists cell
-  // @TODO insert ship into board
-  // @TODO return success
+async function addUnit(req, res, next) {
+  // @DONE @TODO get ship from type
+  // @DONE @TODO check type ship should not more than 1x Battleship, 2x Cruisers, 3x Destroyers and 4x Submarines.
+  // @DONE @TODO get all cors cells from start and l and direction
+  // @DONE @TODO check ship over grid
+  // @DONE @TODO check ship exists or adjacent cells
+  // @DONE @TODO insert ship into board
+  // @DONE @TODO return success
   const board = req.board
-  res.json('')
+  const body = req.body
+  console.log('body = ', JSON.stringify(body, null, 2));
+
+  // get ship from type
+  const ship = Utility.getShip(body.type)
+  console.log('ship = ', JSON.stringify(ship, null, 2));
+  console.log('board = ', JSON.stringify(board, null, 2));
+
+  // check type ship should not more than 1x Battleship, 2x Cruisers, 3x Destroyers and 4x Submarines.
+  const isNotLimitExeeded = Utility.checkLimitShipsInBoard(board.ships, ship.type)
+  console.log('isNotLimitExeeded = ', isNotLimitExeeded);
+  if (!isNotLimitExeeded) {
+    res.json('illegal')
+    return
+  }
+
+  // get all cors cells from start and l and direction
+  const cors = Utility.getCors(body, ship)
+  console.log('cors = ', JSON.stringify(cors, null, 2));
+  ship.cors = cors // set cors to ship
+  console.log('board = ', JSON.stringify(board, null, 2));
+  console.log('ship = ', JSON.stringify(ship, null, 2));
+
+  // check ship over grid
+  const isOver = Utility.isShipOverGrid(board.square_grid, ship.cors)
+  console.log('isOver = ', isOver);
+  if (isOver) {
+    res.json('illegal')
+    return
+  }
+
+  // check ship exists or adjacent cells
+  const isAdjacent = Utility.isAdjacent(board.ships, ship.cors)
+  console.log('isAdjacent = ', isAdjacent);
+  if (isAdjacent) {
+    res.json('illegal')
+    return
+  }
+
+  // pass all cases
+  board.ships.push(ship)
+  console.log('board = ', JSON.stringify(board, null, 2));
+
+  try {
+    await board.save()
+  } catch (e) {
+    return next(new APIError(e))
+  }
+
+  res.json('legal')
 }
 
 /**
@@ -107,15 +158,17 @@ async function fire(req, res, next) {
   const y = req.body.y
   const cell = `${x}x${y}`
   board.fired.push(cell)
-  console.log('board = ', JSON.stringify(board, null, 2));
+  //console.log('board = ', JSON.stringify(board, null, 2));
 
   // Get result and set field in board object
   const result = Utility.fireAndGetSituation(board, cell)
 
+  console.log('board = ', JSON.stringify(board, null, 2));
   try {
+    board.markModified('ships') // update mixed type in mongoose
     await board.save()
   } catch (e) {
-    next(new APIError(e))
+    return next(new APIError(e))
   }
 
   return res.json(result)

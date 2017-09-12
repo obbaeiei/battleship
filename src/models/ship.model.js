@@ -10,7 +10,7 @@ const ShipSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  length: {
+  l: {
     type: Number,
     required: true
   }

@@ -64,22 +64,35 @@ describe('## Board APIs', () => {
 
   describe('# POST /api/baords/:boardId/_add_unit', () => {
     describe('# Battleship', () => {
-      it('should add ship into the board', (done) => {
+      it('should add battleship into the board', (done) => {
         let battleship = {
           direction: 'horizontal',
-          type: 1,
-          at: {
-            x: 1,
-            y: 1
-          }
+          type: 3,
+          at: '7x1'
         }
         request(app)
           .post(`/api/boards/${board._id}/_add_unit`)
           .send(battleship)
           .expect(httpStatus.OK)
           .then((res) => {
-            console.log('res.body = ', JSON.stringify(res.body, null, 2));
-            expect(res.body.square_grid).to.equal(10)
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Submarines into the board', (done) => {
+        let submarine = {
+          direction: 'horizontal',
+          type: 4,
+          at: '5x1'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
             done()
           })
           .catch(done)
@@ -107,8 +120,8 @@ describe('## Board APIs', () => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)
         .send({
-          x: 10,
-          y: 10
+          x: 7,
+          y: 1
         })
         .expect(httpStatus.OK)
         .then((res) => {
@@ -122,12 +135,12 @@ describe('## Board APIs', () => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)
         .send({
-          x: 10,
-          y: 10
+          x: 5,
+          y: 1
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the ${x}')
+          expect(res.body).to.equal('You just sank the Submarine')
           done()
         })
         .catch(done)
@@ -137,12 +150,12 @@ describe('## Board APIs', () => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)
         .send({
-          x: 10,
-          y: 10
+          x: 8,
+          y: 1
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Win ! You completed the game in ${x} moves')
+          expect(res.body).to.equal('Win ! You completed the game in 4 moves')
           done()
         })
         .catch(done)

@@ -41,6 +41,12 @@ const BoardSchema = new mongoose.Schema({
    */
   ships: [{
     /*
+     * type of ship
+     */
+    type: {
+      type: Number
+    },
+    /*
      * Name of ship
      */
     name: {
@@ -49,7 +55,7 @@ const BoardSchema = new mongoose.Schema({
     /*
      * length of ship
      */
-    length: {
+    l: {
       type: Number
     },
     /*
