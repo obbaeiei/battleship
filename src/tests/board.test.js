@@ -43,7 +43,6 @@ describe('## Board APIs', () => {
         .get(`/api/boards/${board._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
-          // console.log('res.body = ', JSON.stringify(res.body, null, 2))
           expect(res.body.square_grid).to.equal(10)
           done()
         })

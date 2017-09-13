@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const httpStatus = require('http-status')
 const Schema = mongoose.Schema
 const APIError = require('../helpers/APIError')
-const Utility = require('../helpers/utility')
 
 /**
  * Board Schema
@@ -17,16 +16,6 @@ const BoardSchema = new mongoose.Schema({
    * number of ship destroyed
    */
   ship_destroyed: {
-    type: Number,
-    default: 0
-  },
-  /*
-   * state of board as a number
-   * 0 is initial (no ships)
-   * 1 is inprogress (defender put their ships but not complate)
-   * 2 is ready (defender places thier ship complately)
-   */
-  state: {
     type: Number,
     default: 0
   },
@@ -78,7 +67,6 @@ const BoardSchema = new mongoose.Schema({
 BoardSchema.method({
 })
 
-
 /**
  * Statics
  */
@@ -89,7 +77,7 @@ BoardSchema.statics = {
    * @param {number} limit - Limit number of boards to be returned.
    * @returns {Promise<Board[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
+  list ({ skip = 0, limit = 50 } = {}) {
     return this.find()
       .sort({
         createdAt: -1
@@ -104,7 +92,7 @@ BoardSchema.statics = {
    * @param {ObjectId} id - The objectId of board.
    * @returns {Promise<Board, APIError>}
    */
-  async get(id) {
+  async get (id) {
     const board = await this.findById(id).exec()
     if (board) {
       return board

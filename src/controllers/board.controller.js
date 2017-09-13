@@ -87,13 +87,6 @@ function remove (req, res, next) {
  * @returns {Board}
  */
 async function addUnit (req, res, next) {
-  // @DONE @TODO get ship from type
-  // @DONE @TODO check type ship should not more than 1x Battleship, 2x Cruisers, 3x Destroyers and 4x Submarines.
-  // @DONE @TODO get all cors cells from start and l and direction
-  // @DONE @TODO check ship over grid
-  // @DONE @TODO check ship exists or adjacent cells
-  // @DONE @TODO insert ship into board
-  // @DONE @TODO return success
   const board = req.board
   const body = req.body
 
@@ -127,7 +120,6 @@ async function addUnit (req, res, next) {
 
   // pass all cases
   board.ships.push(ship)
-  // @TODO update state if all of ships are place
 
   try {
     await board.save()
@@ -143,7 +135,6 @@ async function addUnit (req, res, next) {
  * @returns {Promise<String, APIError>} text -
  */
 async function fire (req, res, next) {
-  // @TODO check if state not ready (put more ships please) cannot fire
   const board = req.board
   const cell = req.body.fire
   // check pattern of cell
@@ -152,7 +143,6 @@ async function fire (req, res, next) {
     return next(new APIError('Bad request fire should be NUMBERxNUMBER', 400))
   }
   board.fired.push(cell)
-  // console.log('board = ', JSON.stringify(board, null, 2));
 
   // Get result and set field in board object
   const result = Utility.fireAndGetSituation(board, cell)

@@ -13,10 +13,10 @@ const board = {
     name: 'Battleship',
     l: 4,
     cors: {
-      ['10x7']: false,
-      ['10x8']: false,
-      ['10x9']: false,
-      ['10x10']: false
+      '10x7': false,
+      '10x8': false,
+      '10x9': false,
+      '10x10': false
     },
     _id: '59b93d03192c6f05fb01e7fe',
     destroyed: false
@@ -71,11 +71,11 @@ describe('## Utility', () => {
       name: 'Submarine',
       l: 1,
       cors: {
-        ['9x6']: false
+        '9x6': false
       }
     }
     const isAdjacent = Utility.isAdjacent(board.ships, _ship.cors)
-    expect(isAdjacent).to.be.a.true
+    expect(isAdjacent).to.be.equal(true)
   })
 
   it('should return isAdjacent to false', () => {
@@ -84,11 +84,11 @@ describe('## Utility', () => {
       name: 'Submarine',
       l: 1,
       cors: {
-        ['8x6']: false
+        '8x6': false
       }
     }
     const isAdjacent = Utility.isAdjacent(board.ships, _ship.cors)
-    expect(isAdjacent).to.be.a.false
+    expect(isAdjacent).to.be.equal(false)
   })
 
   it('should return isShipOverGrid to false', () => {
@@ -97,11 +97,11 @@ describe('## Utility', () => {
       name: 'Submarine',
       l: 1,
       cors: {
-        ['8x6']: false
+        '8x6': false
       }
     }
     const isShipOverGrid = Utility.isShipOverGrid(10, _ship.cors)
-    expect(isShipOverGrid).to.be.a.false
+    expect(isShipOverGrid).to.be.equal(false)
   })
 
   it('should return isShipOverGrid to true', () => {
@@ -110,11 +110,11 @@ describe('## Utility', () => {
       name: 'Submarine',
       l: 1,
       cors: {
-        ['0x-1']: false
+        '0x-1': false
       }
     }
     const isShipOverGrid = Utility.isShipOverGrid(10, _ship.cors)
-    expect(isShipOverGrid).to.be.a.true
+    expect(isShipOverGrid).to.be.equal(true)
   })
 
   it('should return isShipOverGrid to true', () => {
@@ -123,11 +123,11 @@ describe('## Utility', () => {
       name: 'Submarine',
       l: 1,
       cors: {
-        ['14x6']: false
+        '14x6': false
       }
     }
     const isShipOverGrid = Utility.isShipOverGrid(10, _ship.cors)
-    expect(isShipOverGrid).to.be.a.true
+    expect(isShipOverGrid).to.be.equal(true)
   })
 
   it('should return cors of vertical battleship', () => {
@@ -143,12 +143,12 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['10x7']: false,
-      ['10x8']: false,
-      ['10x9']: false,
-      ['10x10']: false
+      '10x7': false,
+      '10x8': false,
+      '10x9': false,
+      '10x10': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return cors of horizontal battleship', () => {
@@ -164,12 +164,12 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['1x7']: false,
-      ['2x7']: false,
-      ['3x7']: false,
-      ['4x7']: false
+      '1x7': false,
+      '2x7': false,
+      '3x7': false,
+      '4x7': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return cors of horizontal Cruiser', () => {
@@ -185,11 +185,11 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['1x7']: false,
-      ['2x7']: false,
-      ['3x7']: false
+      '1x7': false,
+      '2x7': false,
+      '3x7': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return cors of vertical Cruiser', () => {
@@ -205,11 +205,11 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['1x7']: false,
-      ['1x8']: false,
-      ['1x9']: false
+      '1x7': false,
+      '1x8': false,
+      '1x9': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return cors of horizontal Destroyer', () => {
@@ -225,10 +225,10 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['1x7']: false,
-      ['2x7']: false
+      '1x7': false,
+      '2x7': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return cors of vertical Destroyer', () => {
@@ -244,10 +244,10 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['1x7']: false,
-      ['1x8']: false
+      '1x7': false,
+      '1x8': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return cors of horizontal Submarine', () => {
@@ -263,9 +263,9 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['1x7']: false
+      '1x7': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return cors of vertical Submarine', () => {
@@ -281,9 +281,9 @@ describe('## Utility', () => {
     }
     const cors = Utility.getCors(battleship, _ship)
     const expected = {
-      ['1x7']: false
+      '1x7': false
     }
-    expect(cors).to.have.all.deep.keys(expected);
+    expect(cors).to.have.all.deep.keys(expected)
   })
 
   it('should return Battleship by getShip', () => {
