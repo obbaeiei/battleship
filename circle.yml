@@ -29,7 +29,7 @@ jobs:
       - run: npm install
 
       # Add config
-      - run: .env.example .env
+      - run: cp .env.example .env
 
       - save_cache:
           paths:
