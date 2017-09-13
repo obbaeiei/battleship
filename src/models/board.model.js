@@ -20,6 +20,17 @@ const BoardSchema = new mongoose.Schema({
     default: 0
   },
   /*
+   * state of board as a number
+   * 0 is initial (no ships)
+   * 1 is inprogress (defender put their ships but not complate)
+   * 2 is ready (defender places thier ship complately)
+   * 3 is finished
+   */
+  state: {
+    type: Number,
+    default: 0
+  },
+  /*
    * cell that fired
    */
   fired: [{

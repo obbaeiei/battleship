@@ -21,17 +21,17 @@ node index.js
 #### Baord game
 
 * List of boards
-- **[<code>GET</code> http://localhost:4040/api/boards](#get-boards)**
+    - **[<code>GET</code> http://localhost:4040/api/boards](#get-boards)**
 * Create new boards
-- **[<code>POST</code> http://localhost:4040/api/boards](#post-boards)**
+    - **[<code>POST</code> http://localhost:4040/api/boards](#post-boards)**
 * Get board by :baordId
-- **[<code>GET</code> http://localhost:4040/api/boards/:boardId](#get-boardboardid)**
+    - **[<code>GET</code> http://localhost:4040/api/boards/:boardId](#get-boardboardid)**
 * Delete board by :baordId
-- **[<code>DELETE</code> http://localhost:4040/api/boards/:boardId](#delete-boardsboardid)**
+    - **[<code>DELETE</code> http://localhost:4040/api/boards/:boardId](#delete-boardsboardid)**
 * Place ship into board by :boardId
-- **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_add_unit](#post-boardsboardid_add_unit)**
+    - **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_add_unit](#post-boardsboardid_add_unit)**
 * Fire a ship by :boardId
-- **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_fire](#post-boardsboardid_fire)**
+    - **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_fire](#post-boardsboardid_fire)**
 
 ## Guild Lines & Test game
 
@@ -121,107 +121,107 @@ POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '1x1',
    }
- response_body: "Miss"
+ response_body: { "message": "Miss" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '2x2'
    }
- response_body: "Hit"
+ response_body: { "message": "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '3x2'
    }
- response_body: "Hit"
+ response_body: { "message": "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '4x2'
    }
- response_body: "You just sank the Cruiser"
+ response_body:{ "message":  "You just sank the Cruiser" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '3x4'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '5x4'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '4x4'
    }
- response_body: "You just sank the Cruiser"
+ response_body:{ "message":  "You just sank the Cruiser" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '10x7'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '10x8'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '10x10'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '10x9'
    }
- response_body: "You just sank the Battleship"
+ response_body:{ "message":  "You just sank the Battleship" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '10x3'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '10x4'
    }
- response_body: "You just sank the Destroyer"
+ response_body:{ "message":  "You just sank the Destroyer" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '7x2'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '7x3'
    }
- response_body: "You just sank the Destroyer"
+ response_body:{ "message":  "You just sank the Destroyer" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '2x6'
    }
- response_body: "Hit"
+ response_body:{ "message":  "Hit" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '3x6'
    }
- response_body: "You just sank the Destroyer"
+ response_body:{ "message":  "You just sank the Destroyer" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '1x4'
    }
- response_body: "You just sank the Submarine"
+ response_body:{ "message":  "You just sank the Submarine" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '5x6'
    }
- response_body: "You just sank the Submarine"
+ response_body:{ "message":  "You just sank the Submarine" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '1x10'
    }
- response_body: "You just sank the Submarine"
+ response_body:{ "message":  "You just sank the Submarine" }
 POST http://localhost:4040/api/boards/59b94f6c152ecf0b28f1fb81/_fire
  request_body: {
       fire: '8x6'
    }
- response_body: "Win ! You completed the game in 21 moves"
+ response_body:{ "message":  "Win ! You completed the game in 21 moves" }
 ```
 
 ## Example endpoint
@@ -546,7 +546,10 @@ Request body:
     }
 
 Response body:
-    'legal'
+
+    {
+      "message": "legal"
+    }
 
 ### POST /boards/:boardId/_fire
 
@@ -559,7 +562,11 @@ Request body:
     }
 
 Response body:
-    'Miss'
+    
+    {
+      "message": "Miss"
+    }
+    
 
 ## Authors
 

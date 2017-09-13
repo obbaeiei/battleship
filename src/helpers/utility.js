@@ -244,6 +244,7 @@ class Utility {
         }
         board.ship_destroyed += 1
         if (board.ship_destroyed === ships.length) {
+          board.state = 3 // state done
           return Utility._getSituation(3, board.fired.length)
         }
         // SHIP Destroyed

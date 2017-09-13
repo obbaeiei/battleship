@@ -73,7 +73,7 @@ describe('## Board APIs', () => {
           .send(battleship)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -90,7 +90,7 @@ describe('## Board APIs', () => {
           .send(cruiser)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -107,7 +107,7 @@ describe('## Board APIs', () => {
           .send(cruiser)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -124,7 +124,7 @@ describe('## Board APIs', () => {
           .send(destroyer)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -141,7 +141,7 @@ describe('## Board APIs', () => {
           .send(destroyer)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -158,7 +158,7 @@ describe('## Board APIs', () => {
           .send(destroyer)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -175,7 +175,7 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -192,7 +192,7 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -209,7 +209,7 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -226,7 +226,8 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('illegal')
+            expect(res.body.error).to.equal(true)
+            expect(res.body.message).to.equal('The ship is adjacent.')
             done()
           })
           .catch(done)
@@ -243,7 +244,8 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('illegal')
+            expect(res.body.error).to.equal(true)
+            expect(res.body.message).to.equal('The ship is adjacent.')
             done()
           })
           .catch(done)
@@ -260,7 +262,8 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('illegal')
+            expect(res.body.error).to.equal(true)
+            expect(res.body.message).to.equal('ship position is over grid.')
             done()
           })
           .catch(done)
@@ -277,7 +280,7 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('legal')
+            expect(res.body.message).to.equal('legal')
             done()
           })
           .catch(done)
@@ -294,7 +297,8 @@ describe('## Board APIs', () => {
           .send(submarine)
           .expect(httpStatus.OK)
           .then((res) => {
-            expect(res.body).to.equal('illegal')
+            expect(res.body.error).to.equal(true)
+            expect(res.body.message).to.equal('Game is Ready.')
             done()
           })
           .catch(done)
@@ -325,7 +329,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Miss')
+          expect(res.body.message).to.equal('Miss')
           done()
         })
         .catch(done)
@@ -339,7 +343,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -353,7 +357,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -367,7 +371,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Cruiser')
+          expect(res.body.message).to.equal('You just sank the Cruiser')
           done()
         })
         .catch(done)
@@ -381,7 +385,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -395,7 +399,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -409,7 +413,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Cruiser')
+          expect(res.body.message).to.equal('You just sank the Cruiser')
           done()
         })
         .catch(done)
@@ -423,7 +427,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -437,7 +441,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -451,7 +455,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -465,7 +469,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Battleship')
+          expect(res.body.message).to.equal('You just sank the Battleship')
           done()
         })
         .catch(done)
@@ -479,7 +483,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -493,7 +497,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Destroyer')
+          expect(res.body.message).to.equal('You just sank the Destroyer')
           done()
         })
         .catch(done)
@@ -507,7 +511,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -521,7 +525,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Destroyer')
+          expect(res.body.message).to.equal('You just sank the Destroyer')
           done()
         })
         .catch(done)
@@ -535,7 +539,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Hit')
+          expect(res.body.message).to.equal('Hit')
           done()
         })
         .catch(done)
@@ -549,7 +553,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Destroyer')
+          expect(res.body.message).to.equal('You just sank the Destroyer')
           done()
         })
         .catch(done)
@@ -563,7 +567,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Submarine')
+          expect(res.body.message).to.equal('You just sank the Submarine')
           done()
         })
         .catch(done)
@@ -577,7 +581,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Submarine')
+          expect(res.body.message).to.equal('You just sank the Submarine')
           done()
         })
         .catch(done)
@@ -591,7 +595,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('You just sank the Submarine')
+          expect(res.body.message).to.equal('You just sank the Submarine')
           done()
         })
         .catch(done)
@@ -605,7 +609,7 @@ describe('## Board APIs', () => {
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Win ! You completed the game in 21 moves')
+          expect(res.body.message).to.equal('Win ! You completed the game in 21 moves')
           done()
         })
         .catch(done)

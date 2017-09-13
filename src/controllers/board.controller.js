@@ -90,13 +90,32 @@ async function addUnit (req, res, next) {
   const board = req.board
   const body = req.body
 
+  if (board.state === 3) {
+    res.json({
+      error: true,
+      message: 'Game Finished.'
+    })
+    return
+  }
+
+  if (board.state === 2) {
+    res.json({
+      error: true,
+      message: 'Game is Ready.'
+    })
+    return
+  }
+
   // get ship from type
   const ship = Utility.getShip(body.type)
 
   // check type ship should not more than 1x Battleship, 2x Cruisers, 3x Destroyers and 4x Submarines.
   const isNotLimitExeeded = Utility.checkLimitShipsInBoard(board.ships, ship.type)
   if (!isNotLimitExeeded) {
-    res.json('illegal')
+    res.json({
+      error: true,
+      message: `${ship.type} limit exceeded.`
+    })
     return
   }
 
@@ -107,19 +126,31 @@ async function addUnit (req, res, next) {
   // check ship over grid
   const isOver = Utility.isShipOverGrid(board.square_grid, ship.cors)
   if (isOver) {
-    res.json('illegal')
+    res.json({
+      error: true,
+      message: 'ship position is over grid.'
+    })
     return
   }
 
   // check ship exists or adjacent cells
   const isAdjacent = Utility.isAdjacent(board.ships, ship.cors)
   if (isAdjacent) {
-    res.json('illegal')
+    res.json({
+      error: true,
+      message: 'The ship is adjacent.'
+    })
     return
   }
 
   // pass all cases
   board.ships.push(ship)
+
+  board.state = 1 // inprogress
+
+  if (board.ships.length === 10) {
+    board.state = 2 // ready to fire
+  }
 
   try {
     await board.save()
@@ -127,7 +158,9 @@ async function addUnit (req, res, next) {
     return next(new APIError(e))
   }
 
-  res.json('legal')
+  res.json({
+    message: 'legal'
+  })
 }
 
 /**
@@ -154,7 +187,9 @@ async function fire (req, res, next) {
     return next(new APIError(e))
   }
 
-  return res.json(result)
+  return res.json({
+    message: result
+  })
 }
 
 module.exports = {
