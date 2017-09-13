@@ -60,7 +60,7 @@ describe('## Board APIs', () => {
     })
   })
 
-  describe('# POST /api/baords/:boardId/_add_unit', () => {
+  describe('# POST /api/boards/:boardId/_add_unit', () => {
     describe('# Battleship', () => {
       it('should add battleship into the board', (done) => {
         let battleship = {
@@ -306,7 +306,7 @@ describe('## Board APIs', () => {
     })
   })
 
-  describe('# POST /api/baords/:boardId/_fire', () => {
+  describe('# POST /api/boards/:boardId/_fire', () => {
     it('should get Error when fire wrong pattern', (done) => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)

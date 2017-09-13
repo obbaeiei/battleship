@@ -24,9 +24,9 @@ node index.js
     - **[<code>GET</code> http://localhost:4040/api/boards](#get-boards)**
 * Create new boards
     - **[<code>POST</code> http://localhost:4040/api/boards](#post-boards)**
-* Get board by :baordId
+* Get board by :boardId
     - **[<code>GET</code> http://localhost:4040/api/boards/:boardId](#get-boardboardid)**
-* Delete board by :baordId
+* Delete board by :boardId
     - **[<code>DELETE</code> http://localhost:4040/api/boards/:boardId](#delete-boardsboardid)**
 * Place ship into board by :boardId
     - **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_add_unit](#post-boardsboardid_add_unit)**
@@ -38,7 +38,7 @@ node index.js
 * Game start with a fleet of ships
 * 1x Battleship(type:1), 2x Cruisers(type:2), 3x Destroyers(type:3) and 4x Submarines(type:4)
 * Start!! 
-* First create a board then get id of baord from response body
+* First create a board then get id of board from response body
 ```
 POST http://localhost:4040/api/boards
   response_body: {
