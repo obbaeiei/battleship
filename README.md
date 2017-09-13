@@ -26,6 +26,8 @@ node index.js
     - **[<code>POST</code> http://localhost:4040/api/boards](#post-boards)**
 * Get board by :boardId
     - **[<code>GET</code> http://localhost:4040/api/boards/:boardId](#get-boardboardid)**
+* Get board as a attacker will hide all secret ships
+    - **[<code>GET</code> http://localhost:4040/api/boards/:boardId?type=attacker](#get-boardboardidtypeattacker)**
 * Delete board by :boardId
     - **[<code>DELETE</code> http://localhost:4040/api/boards/:boardId](#delete-boardsboardid)**
 * Place ship into board by :boardId
