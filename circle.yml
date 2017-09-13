@@ -28,6 +28,9 @@ jobs:
 
       - run: npm install
 
+      # Add config
+      - run: .env.example .env
+
       - save_cache:
           paths:
             - node_modules
