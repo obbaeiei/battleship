@@ -40,8 +40,6 @@ function get (req, res) {
 
 /**
  * Create new board
- * @property {string} req.body.boardname - The boardname of board.
- * @property {string} req.body.mobileNumber - The mobileNumber of board.
  * @returns {Board}
  */
 function create (req, res, next) {
@@ -49,22 +47,6 @@ function create (req, res, next) {
   const board = new Board({
     square_grid: squreGrid
   })
-
-  board.save()
-    .then(savedBoard => res.json(savedBoard))
-    .catch(e => next(new APIError(e)))
-}
-
-/**
- * Update existing board
- * @property {string} req.body.boardname - The boardname of board.
- * @property {string} req.body.mobileNumber - The mobileNumber of board.
- * @returns {Board}
- */
-function update (req, res, next) {
-  const board = req.board
-  board.boardname = req.body.boardname
-  board.mobileNumber = req.body.mobileNumber
 
   board.save()
     .then(savedBoard => res.json(savedBoard))
@@ -212,7 +194,6 @@ module.exports = {
   load,
   get,
   create,
-  update,
   list,
   remove,
   addUnit,
