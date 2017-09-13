@@ -25,13 +25,13 @@ node index.js
 * Create new boards
 - **[<code>POST</code> http://localhost:4040/api/boards](#post-boards)**
 * Get board by :baordId
-- **[<code>GET</code> http://localhost:4040/api/boards/:boardId](#get-board)**
+- **[<code>GET</code> http://localhost:4040/api/boards/:boardId](#get-boardboardid)**
 * Delete board by :baordId
-- **[<code>DELETE</code> http://localhost:4040/api/boards/:boardId](#delete-board)**
+- **[<code>DELETE</code> http://localhost:4040/api/boards/:boardId](#delete-boardsboardid)**
 * Place ship into board by :boardId
-- **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_add_unit](#add-unit)**
+- **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_add_unit](#post-boardsboardid_add_unit)**
 * Fire a ship by :boardId
-- **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_fire](#fire)**
+- **[<code>POST</code> http://localhost:4040/api/boards/:boardId/_fire](#post-boardsboardid_fire)**
 
 ## Guild Lines & Test game
 
