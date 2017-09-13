@@ -6,7 +6,7 @@ class Utility {
    * @properties {string} cor - e.g. 1x1 {x}x{y}
    * @returns {object} xy
    */
-  static _getXY(at) {
+  static _getXY (at) {
     // Example at = 1x1
     const xy = at.split('x')
     return {
@@ -22,11 +22,10 @@ class Utility {
    * @properties {object} ship.cors
    * @returns {object} True is adjacent(cannot place this ship). Otherwise false
    */
-  static isAdjacent(ships, cors) {
+  static isAdjacent (ships, cors) {
     if (!ships.length) {
       return false
     }
-    console.log('ships = ', JSON.stringify(ships, null, 2))
     let totalCors = {}
     // loop get all cors from old ships
     for (let i = 0; i < ships.length; i++) {
@@ -47,12 +46,9 @@ class Utility {
       totalCors[`${x - 1}x${y + 1}`] = false
       totalCors[`${x + 1}x${y - 1}`] = false
     }
-    console.log('totalCors = ', JSON.stringify(totalCors, null, 2))
 
     // check new ship exists in totalCors or not
-
     keys = Object.keys(cors)
-    console.log('keys = ', JSON.stringify(keys, null, 2));
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i]
       if (typeof totalCors[key] !== 'undefined') {
@@ -69,13 +65,13 @@ class Utility {
    * @properties {object} ship.cors
    * @returns {object} True is overgrid(cannot place this ship). Otherwise false
    */
-  static isShipOverGrid(grid, cors) {
+  static isShipOverGrid (grid, cors) {
     // loop go from last items
     const keys = Object.keys(cors)
     for (var i = keys.length - 1; i >= 0; i--) {
       const cor = keys[i]
       let { x, y } = Utility._getXY(cor)
-      if (x > grid || y > grid) {
+      if (x > grid || y > grid || x < 0 || y < 0) {
         return true
       }
     }
@@ -93,7 +89,7 @@ class Utility {
    * @properties {number} ship.l - length of ship
    * @returns {object} key is cors (1x1), value is boolean True is fired. Otherwise false
    */
-  static getCors({ at, direction } , { l }) {
+  static getCors ({ at, direction }, { l }) {
     const cors = {}
     cors[at] = false
 
@@ -120,8 +116,7 @@ class Utility {
    * @param {number} type - type of ship
    * @returns {boolean} True is the ship can put into board. Otherwise false
    */
-  static checkLimitShipsInBoard(ships, type) {
-    console.log('ships = ', JSON.stringify(ships, null, 2))
+  static checkLimitShipsInBoard (ships, type) {
     if (!ships.length) {
       // if no ship in board then true
       return true
@@ -152,7 +147,7 @@ class Utility {
    * @returns {string} ship.name - name of ship
    * @returns {number} ship.l - length of ship
    */
-  static getShip(type) {
+  static getShip (type) {
     switch (type) {
       case 1:
         return {
@@ -188,7 +183,7 @@ class Utility {
    * @param {string} x - name of ship or number of moves
    * @returns {string} text - situation after fired
    */
-  static _getSituation(num, x) {
+  static _getSituation (num, x) {
     switch (num) {
       case 0:
         return 'Miss'
@@ -223,7 +218,7 @@ class Utility {
    * @param {string} cellFired - cell fired
    * @returns {string} text - situation after fired from function _getSituations
    */
-  static fireAndGetSituation(board, cellFired) {
+  static fireAndGetSituation (board, cellFired) {
     const ships = board.ships
     for (let i = 0; i < ships.length; i++) {
       const ship = ships[i]

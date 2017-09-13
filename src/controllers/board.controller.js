@@ -96,16 +96,12 @@ async function addUnit (req, res, next) {
   // @DONE @TODO return success
   const board = req.board
   const body = req.body
-  console.log('body = ', JSON.stringify(body, null, 2))
 
   // get ship from type
   const ship = Utility.getShip(body.type)
-  console.log('ship = ', JSON.stringify(ship, null, 2))
-  console.log('board = ', JSON.stringify(board, null, 2))
 
   // check type ship should not more than 1x Battleship, 2x Cruisers, 3x Destroyers and 4x Submarines.
   const isNotLimitExeeded = Utility.checkLimitShipsInBoard(board.ships, ship.type)
-  console.log('isNotLimitExeeded = ', isNotLimitExeeded)
   if (!isNotLimitExeeded) {
     res.json('illegal')
     return
@@ -113,14 +109,10 @@ async function addUnit (req, res, next) {
 
   // get all cors cells from start and l and direction
   const cors = Utility.getCors(body, ship)
-  console.log('cors = ', JSON.stringify(cors, null, 2))
   ship.cors = cors // set cors to ship
-  console.log('board = ', JSON.stringify(board, null, 2))
-  console.log('ship = ', JSON.stringify(ship, null, 2))
 
   // check ship over grid
   const isOver = Utility.isShipOverGrid(board.square_grid, ship.cors)
-  console.log('isOver = ', isOver)
   if (isOver) {
     res.json('illegal')
     return
@@ -128,7 +120,6 @@ async function addUnit (req, res, next) {
 
   // check ship exists or adjacent cells
   const isAdjacent = Utility.isAdjacent(board.ships, ship.cors)
-  console.log('isAdjacent = ', isAdjacent)
   if (isAdjacent) {
     res.json('illegal')
     return
@@ -136,7 +127,6 @@ async function addUnit (req, res, next) {
 
   // pass all cases
   board.ships.push(ship)
-  console.log('board = ', JSON.stringify(board, null, 2))
   // @TODO update state if all of ships are place
 
   try {
@@ -155,16 +145,18 @@ async function addUnit (req, res, next) {
 async function fire (req, res, next) {
   // @TODO check if state not ready (put more ships please) cannot fire
   const board = req.board
-  const x = req.body.x
-  const y = req.body.y
-  const cell = `${x}x${y}`
+  const cell = req.body.fire
+  // check pattern of cell
+  const reg = new RegExp(/(\d+)x(\d+)/, 'g')
+  if (!reg.test(cell)) {
+    return next(new APIError('Bad request fire should be NUMBERxNUMBER', 400))
+  }
   board.fired.push(cell)
   // console.log('board = ', JSON.stringify(board, null, 2));
 
   // Get result and set field in board object
   const result = Utility.fireAndGetSituation(board, cell)
 
-  console.log('board = ', JSON.stringify(board, null, 2))
   try {
     board.markModified('ships') // update mixed type in mongoose
     await board.save()

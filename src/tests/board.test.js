@@ -29,7 +29,6 @@ describe('## Board APIs', () => {
         .send(board)
         .expect(httpStatus.OK)
         .then((res) => {
-          console.log('res.body = ', JSON.stringify(res.body, null, 2));
           expect(res.body.square_grid).to.equal(10)
           board = res.body
           done()
@@ -44,7 +43,7 @@ describe('## Board APIs', () => {
         .get(`/api/boards/${board._id}`)
         .expect(httpStatus.OK)
         .then((res) => {
-          console.log('res.body = ', JSON.stringify(res.body, null, 2));
+          // console.log('res.body = ', JSON.stringify(res.body, null, 2))
           expect(res.body.square_grid).to.equal(10)
           done()
         })
@@ -66,9 +65,9 @@ describe('## Board APIs', () => {
     describe('# Battleship', () => {
       it('should add battleship into the board', (done) => {
         let battleship = {
-          direction: 'horizontal',
-          type: 3,
-          at: '7x1'
+          direction: 'vertical',
+          type: 1,
+          at: '10x7'
         }
         request(app)
           .post(`/api/boards/${board._id}/_add_unit`)
@@ -81,11 +80,96 @@ describe('## Board APIs', () => {
           .catch(done)
       })
 
-      it('should add Submarines into the board', (done) => {
-        let submarine = {
+      it('should add Cruiser into the board', (done) => {
+        let cruiser = {
           direction: 'horizontal',
+          type: 2,
+          at: '2x2'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(cruiser)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Cruiser into the board', (done) => {
+        let cruiser = {
+          direction: 'horizontal',
+          type: 2,
+          at: '3x4'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(cruiser)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Destroyer into the board', (done) => {
+        let destroyer = {
+          direction: 'horizontal',
+          type: 3,
+          at: '2x6'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(destroyer)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Destroyer into the board', (done) => {
+        let destroyer = {
+          direction: 'vertical',
+          type: 3,
+          at: '7x2'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(destroyer)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Destroyer into the board', (done) => {
+        let destroyer = {
+          direction: 'vertical',
+          type: 3,
+          at: '10x3'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(destroyer)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Submarine into the board', (done) => {
+        let submarine = {
+          direction: 'vertical',
           type: 4,
-          at: '5x1'
+          at: '1x4'
         }
         request(app)
           .post(`/api/boards/${board._id}/_add_unit`)
@@ -97,16 +181,148 @@ describe('## Board APIs', () => {
           })
           .catch(done)
       })
+
+      it('should add Submarine into the board', (done) => {
+        let submarine = {
+          direction: 'vertical',
+          type: 4,
+          at: '1x10'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Submarine into the board', (done) => {
+        let submarine = {
+          direction: 'vertical',
+          type: 4,
+          at: '5x6'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should illegal to place submarine', (done) => {
+        let submarine = {
+          direction: 'vertical',
+          type: 4,
+          at: '9x7'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('illegal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should illegal to place submarine', (done) => {
+        let submarine = {
+          direction: 'vertical',
+          type: 4,
+          at: '9x6'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('illegal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should illegal because over square grid', (done) => {
+        let submarine = {
+          direction: 'horizontal',
+          type: 4,
+          at: '10x12'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('illegal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should add Submarine into the board', (done) => {
+        let submarine = {
+          direction: 'vertical',
+          type: 4,
+          at: '8x6'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('legal')
+            done()
+          })
+          .catch(done)
+      })
+
+      it('should exceed because already place 4 submarine', (done) => {
+        let submarine = {
+          direction: 'horizontal',
+          type: 4,
+          at: '5x9'
+        }
+        request(app)
+          .post(`/api/boards/${board._id}/_add_unit`)
+          .send(submarine)
+          .expect(httpStatus.OK)
+          .then((res) => {
+            expect(res.body).to.equal('illegal')
+            done()
+          })
+          .catch(done)
+      })
     })
   })
 
   describe('# POST /api/baords/:boardId/_fire', () => {
+    it('should get Error when fire wrong pattern', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: 'xxx'
+        })
+        .expect(400)
+        .then((res) => {
+          expect(res.body.message).to.equal('Bad Request')
+          done()
+        })
+        .catch(done)
+    })
+
     it('should get *Miss* when fire missed', (done) => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)
         .send({
-          x: 10,
-          y: 10
+          fire: '1x1'
         })
         .expect(httpStatus.OK)
         .then((res) => {
@@ -116,12 +332,11 @@ describe('## Board APIs', () => {
         .catch(done)
     })
 
-    it('should get *Hit* when hit', (done) => {
+    it('should get *Hit* when hit 2x2', (done) => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)
         .send({
-          x: 7,
-          y: 1
+          fire: '2x2'
         })
         .expect(httpStatus.OK)
         .then((res) => {
@@ -131,12 +346,221 @@ describe('## Board APIs', () => {
         .catch(done)
     })
 
-    it('should get *You just sank the ${x}* when sank the ship', (done) => {
+    it('should get *Hit* when hit 3x2', (done) => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)
         .send({
-          x: 5,
-          y: 1
+          fire: '3x2'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Cruiser* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '4x2'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('You just sank the Cruiser')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 3x4', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '3x4'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 5x4', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '5x4'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Cruiser* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '4x4'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('You just sank the Cruiser')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 10x7', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '10x7'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 10x8', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '10x8'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 10x10', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '10x10'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Battleship* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '10x9'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('You just sank the Battleship')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 10x3', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '10x3'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Destroyer* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '10x4'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('You just sank the Destroyer')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 7x2', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '7x2'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Destroyer* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '7x3'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('You just sank the Destroyer')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Hit* when hit 2x6', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '2x6'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Hit')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Destroyer* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '3x6'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('You just sank the Destroyer')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Submarine* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '1x4'
         })
         .expect(httpStatus.OK)
         .then((res) => {
@@ -146,16 +570,43 @@ describe('## Board APIs', () => {
         .catch(done)
     })
 
-    it('should get *Win ! You completed the game in ${x} moves* when all ships down', (done) => {
+    it('should get *You just sank the Submarine* when sank the ship', (done) => {
       request(app)
         .post(`/api/boards/${board._id}/_fire`)
         .send({
-          x: 8,
-          y: 1
+          fire: '5x6'
         })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.equal('Win ! You completed the game in 4 moves')
+          expect(res.body).to.equal('You just sank the Submarine')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *You just sank the Submarine* when sank the ship', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '1x10'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('You just sank the Submarine')
+          done()
+        })
+        .catch(done)
+    })
+
+    it('should get *Win ! You completed the game in 21 moves* when all ships down', (done) => {
+      request(app)
+        .post(`/api/boards/${board._id}/_fire`)
+        .send({
+          fire: '8x6'
+        })
+        .expect(httpStatus.OK)
+        .then((res) => {
+          expect(res.body).to.equal('Win ! You completed the game in 21 moves')
           done()
         })
         .catch(done)
