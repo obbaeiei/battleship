@@ -19,7 +19,23 @@ function load (req, res, next, id) {
  * @returns {Board}
  */
 function get (req, res) {
-  return res.json(req.board)
+  const board = req.board
+  const type = req.query.type
+
+  if (type === 'attacker') {
+    // if attacker, it should delete secret position
+    for (let i = 0; i < board.ships.length; i++) {
+      const keys = Object.keys(board.ships[i].cors)
+      for (let j = 0; j < keys.length; j++) {
+        const isFired = board.ships[i].cors[keys[j]]
+        if (!isFired) {
+          delete board.ships[i].cors[keys[j]]
+        }
+      }
+    }
+  }
+
+  return res.json(board)
 }
 
 /**
